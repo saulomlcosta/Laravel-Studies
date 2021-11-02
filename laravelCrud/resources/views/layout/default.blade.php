@@ -5,7 +5,7 @@
 </head>
 <body>
     <header>
-        <h1>@yield('header')</h1>
+        <h1>Laravel Crud</h1>
     </header>
     <hr>
     <section>
@@ -13,7 +13,7 @@
     </section>
     <hr>
     <footer>
-        This is my footer!
+        Enjoy!
     </footer>
 </body>
 </html>

@@ -16,13 +16,9 @@ use App\Http\Controllers\TasksController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-// Route::get("/tasks",
-//                 [TasksController::class, "list"]);
-
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::prefix('/tasks')->group(function(){
     Route::get('/', [TasksController::class, 'list']);
