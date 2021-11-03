@@ -3,5 +3,7 @@
 @section('title', 'Task List')
 
 @section('content')
-    <h1>List</h1>
+    @foreach ($list as $item)
+        <li>{{ $item->title }}</li>
+    @endforeach
 @endsection

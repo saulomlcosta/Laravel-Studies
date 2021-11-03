@@ -26,10 +26,10 @@ Route::prefix('/tasks')->group(function(){
     Route::get('/create', [TasksController::class, 'create']);
     Route::post('/create', [TasksController::class, 'createAction']);
 
-    Route::get('/edit{id}', [TasksController::class, 'edit']);
-    Route::post('/edit{id}', [TasksController::class, 'editAction']);
+    Route::get('/edit/{id}', [TasksController::class, 'edit']);
+    Route::post('/edit/{id}', [TasksController::class, 'editAction']);
 
-    Route::get('/delete{id}', [TasksController::class, 'delete']);
+    Route::get('/delete/{id}', [TasksController::class, 'delete']);
 
-    Route::get('/solved{id}', [TasksController::class, 'done']);
+    Route::get('/solved/{id}', [TasksController::class, 'done']);
 });

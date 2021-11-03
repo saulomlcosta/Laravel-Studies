@@ -1,14 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
 class TasksController extends Controller
 {
     public function list() {
-        return view('tasks.list');
+        $list = DB::table('tasks')
+                     ->get();
+
+        return view('tasks.list', compact(
+            'list',
+        ));
     }
+
     public function create() {
         return view('tasks.create');
 
