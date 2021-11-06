@@ -12,7 +12,7 @@
             @foreach ($list as $item)
                 <li>
                     <a href="tasks/done/{{ $item->id }}">[
-                        @if ($item->solved === 1)
+                        @if ($item->solved == 1)
                             undone
                         @else
                             done
@@ -20,7 +20,10 @@
                     </a>
                     {{ $item->title }}
                     <a href="tasks/edit/{{ $item->id }}">[ edit ]</a>
-                    <a href="tasks/delete/{{ $item->id }}">[ delete ]</a>
+                    <a href="tasks/delete/{{ $item->id }}"
+                    onclick="return confirm('Are you sure about this?')">
+                         [ delete ]
+                    </a>
                 </li>
             @endforeach
         </ul>

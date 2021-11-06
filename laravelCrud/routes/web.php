@@ -31,5 +31,5 @@ Route::prefix('/tasks')->group(function(){
 
     Route::get('/delete/{id}', [TasksController::class, 'delete']);
 
-    Route::get('/solved/{id}', [TasksController::class, 'done']);
+    Route::get('/done/{id}', [TasksController::class, 'done']);
 });

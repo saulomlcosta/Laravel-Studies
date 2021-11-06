@@ -49,28 +49,30 @@ class TasksController extends Controller
         if($request->filled('title')) {
             $title = $request->input('title');
 
-            $data = DB::select('SELECT * FROM tasks WHERE id = :id', [
-                'id' => $id
-            ]);
-
-            if(count($data) > 0) {
-                DB::update('UPDATE tasks SET title = :title WHERE id = :id', [
+            DB::update('UPDATE tasks SET title = :title WHERE id = :id', [
                 'id' => $id,
                 'title' => $title
-            ]);
+                ]);
 
             return redirect('tasks');
-
-            } else {
-                return redirect('tasks');
-            }
+        } else {
+            return redirect('tasks/edit/'.$id)->with('warning', 'Empty field? Really?');
         }
     }
 
-    public function delete() {
+    public function delete($id) {
+        DB::delete('DELETE FROM tasks WHERE id = :id', [
+            'id' => $id
+        ]);
 
+        return redirect('tasks');
     }
-    public function done() {
 
+    public function done($id) {
+        DB::update('UPDATE tasks SET solved = 1 - solved WHERE id = :id',[
+            'id' => $id
+        ]);
+
+        return redirect('tasks');
     }
 }
