@@ -20,17 +20,17 @@ class TasksController extends Controller
 
     }
     public function createAction(Request $request) {
-        if($request->filled('title')) {
-            $title = $request->input('title');
+        $request->validate([
+            'title' => [ 'required', 'string']
+        ]);
 
-            DB::insert('INSERT INTO tasks (title) VALUES (:title)', [
-                'title' => $title
-            ]);
+        $title = $request->input('title');
+
+        DB::insert('INSERT INTO tasks (title) VALUES (:title)', [
+            'title' => $title
+        ]);
 
             return redirect('tasks');
-        } else {
-            return redirect('tasks/create')->with('warning', 'You need to give me a task first!');
-        }
     }
     public function edit($id) {
         $data = DB::select('SELECT * FROM tasks WHERE id = :id', [
@@ -46,18 +46,18 @@ class TasksController extends Controller
         }
     }
     public function editAction(Request $request, $id) {
-        if($request->filled('title')) {
-            $title = $request->input('title');
+        $request->validate([
+            'title' => [ 'required', 'string']
+        ]);
 
-            DB::update('UPDATE tasks SET title = :title WHERE id = :id', [
-                'id' => $id,
-                'title' => $title
-                ]);
+        $title = $request->input('title');
 
-            return redirect('tasks');
-        } else {
-            return redirect('tasks/edit/'.$id)->with('warning', 'Empty field? Really?');
-        }
+        DB::update('UPDATE tasks SET title = :title WHERE id = :id', [
+            'id' => $id,
+            'title' => $title
+            ]);
+
+        return redirect('tasks');
     }
 
     public function delete($id) {

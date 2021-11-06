@@ -8,9 +8,11 @@
     <form method="POST">
         @csrf
 
-        @if (session('warning'))
+        @if ($errors->any())
             <div style="font-weight: bold; text-align:center; border:3px solid #FF0000; padding: 5px; width:25%">
-                {{ session('warning') }}
+                @foreach ($errors->all() as $error )
+                    {{ $error }}<br/>
+                @endforeach
             </div>
         @endif
 
