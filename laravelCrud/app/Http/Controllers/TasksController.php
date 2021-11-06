@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
+use App\Models\Task;
 
 class TasksController extends Controller
 {
     public function list() {
-        $list = DB::select('SELECT * FROM tasks');
+        $list = Task::all();
 
         return view('tasks.list', compact(
             'list',
@@ -26,20 +27,20 @@ class TasksController extends Controller
 
         $title = $request->input('title');
 
-        DB::insert('INSERT INTO tasks (title) VALUES (:title)', [
-            'title' => $title
-        ]);
+        $newTask = new Task;
 
-            return redirect('tasks');
+        $newTask->title = $title;
+
+        $newTask->save();
+
+        return redirect('tasks');
     }
     public function edit($id) {
-        $data = DB::select('SELECT * FROM tasks WHERE id = :id', [
-            'id' => $id
-        ]);
+        $data = Task::find($id);
 
-        if(count($data) > 0) {
+        if($data) {
             return view('tasks.edit', [
-                'data' => $data[0]
+                'data' => $data
             ]);
         } else {
             return redirect('tasks');
@@ -52,26 +53,23 @@ class TasksController extends Controller
 
         $title = $request->input('title');
 
-        DB::update('UPDATE tasks SET title = :title WHERE id = :id', [
-            'id' => $id,
-            'title' => $title
-            ]);
+        Task::find($id)->update(['title' => $title]);
 
         return redirect('tasks');
     }
 
     public function delete($id) {
-        DB::delete('DELETE FROM tasks WHERE id = :id', [
-            'id' => $id
-        ]);
+        Task::find($id)->delete();
 
         return redirect('tasks');
     }
 
     public function done($id) {
-        DB::update('UPDATE tasks SET solved = 1 - solved WHERE id = :id',[
-            'id' => $id
-        ]);
+        $taskStatus = Task::find($id);
+        if($taskStatus) {
+            $taskStatus->solved = 1 - $taskStatus->solved;
+            $taskStatus->save();
+        }
 
         return redirect('tasks');
     }
