@@ -5,6 +5,8 @@
 @section('content')
     <h1>Tasks List</h1>
 
+    <a href="/logout">Logout</a><br>
+
     <a href="tasks/create"> + Add new task</a>
 
     @if(count($list) > 0)
