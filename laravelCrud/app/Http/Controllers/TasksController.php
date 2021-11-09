@@ -8,6 +8,11 @@ use App\Models\Task;
 
 class TasksController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function list() {
         $list = Task::all();
 

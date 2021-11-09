@@ -32,7 +32,7 @@ Route::get('/register', [RegisterController::class, 'index']);
 Route::post('/register', [RegisterController::class, 'register']);
 
 Route::prefix('/tasks')->group(function(){
-    Route::get('/', [TasksController::class, 'list'])->middleware('auth');
+    Route::get('/', [TasksController::class, 'list']);
 
     Route::get('/create', [TasksController::class, 'create']);
     Route::post('/create', [TasksController::class, 'createAction']);
