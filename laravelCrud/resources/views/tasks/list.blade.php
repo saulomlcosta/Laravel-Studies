@@ -5,9 +5,13 @@
 @section('content')
     <h1>Tasks List</h1>
 
+    <h3>Hello, {{ $name }}! It's nice to see you again ;) </h3>
+
     <a href="/logout">Logout</a><br>
 
-    <a href="tasks/create"> + Add new task</a>
+    @if ($editForm)
+        <a href="tasks/create"> + Add new task</a>
+    @endif
 
     @if(count($list) > 0)
         <ul>
@@ -21,11 +25,13 @@
                         @endif]
                     </a>
                     {{ $item->title }}
-                    <a href="tasks/edit/{{ $item->id }}">[ edit ]</a>
-                    <a href="tasks/delete/{{ $item->id }}"
-                    onclick="return confirm('Are you sure about this?')">
-                         [ delete ]
-                    </a>
+                    @if ($editForm)
+                        <a href="tasks/edit/{{ $item->id }}">[ edit ]</a>
+                        <a href="tasks/delete/{{ $item->id }}"
+                        onclick="return confirm('Are you sure about this?')">
+                            [ delete ]
+                        </a>
+                    @endif
                 </li>
             @endforeach
         </ul>

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 use Illuminate\Http\Request;
 use App\Models\Task;
@@ -13,11 +13,17 @@ class TasksController extends Controller
         $this->middleware('auth');
     }
 
-    public function list() {
+    public function list(Request $request) {
         $list = Task::all();
+
+        $user = $request->user();
+        $name = $user->name;
+        $editForm = Gate::allows('edit-form');
 
         return view('tasks.list', compact(
             'list',
+            'name',
+            'editForm',
         ));
     }
 
