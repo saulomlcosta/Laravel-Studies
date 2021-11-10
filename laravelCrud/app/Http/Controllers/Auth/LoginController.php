@@ -41,16 +41,27 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function index() {
-        return view('login');
+    public function index(Request $request) {
+        $tries = $request->session()->get('login_tries', 3);
+
+        return view('login', compact([
+            'tries',
+        ]));
     }
 
     public function authenticate(Request $request) {
         $creds = $request->only(['email', 'password']);
+        $tries = intval($request->session()->get('login_tries', 3));
+
+        $request->session()->forget('login_tries');
 
         if(Auth::attempt($creds)) {
+            $request->session()->put('login_tries', 3);
+
             return redirect('tasks');
         } else {
+            $request->session()->put('login_tries', --$tries);
+
             return redirect('login')->with(
                 'warning', 'E-mail or password not exists'
             );
