@@ -20,6 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/ping', function(){
     return [
-        'pong' => true
+        'pong' => true,
+        'Test' => [
+            'Atributtes' => 'Strength'
+        ]
     ];
 });
