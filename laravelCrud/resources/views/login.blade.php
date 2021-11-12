@@ -20,7 +20,7 @@
         @else
             <input type="submit" value="Enter!">
         @endif
-
-
     </form>
+
+    <a href="/register"> Not a user yet? Come with me!</a>
 @endsection

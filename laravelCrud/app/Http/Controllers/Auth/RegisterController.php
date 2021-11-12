@@ -59,7 +59,7 @@ class RegisterController extends Controller
 
         $user = $this->create($data);
         Auth::login($user);
-        return redirect('tasks');
+        return redirect('tasks')->with('message', 'Now, you are one of us! *--*');
     }
 
     /**

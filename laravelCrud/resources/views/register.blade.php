@@ -20,6 +20,7 @@
         <input type="password" name="password" placeholder="Password?"><br>
         <input type="password" name="password_confirmation" placeholder="Confirm your pass!"><br>
 
-        <input type="submit" value="Create new user!">
+        <input type="submit" value="Create a new user!"><br>
+        <a href="login">Return</a>
     </form>
 @endsection
