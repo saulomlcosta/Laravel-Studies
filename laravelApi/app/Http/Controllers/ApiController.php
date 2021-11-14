@@ -33,15 +33,67 @@ class apiController extends Controller
         return $array;
     }
     public function readAllTodo() {
+        $array = ['error' => ''];
+
+        $array['list'] = Todo::all();
+
+        return $array;
+    }
+    public function readTodo($id) {
+        $array = ['error' => ''];
+
+        $todo = Todo::find($id);
+
+        if($todo) {
+            $array['task'] = $todo;
+        } else {
+            $array['error'] = 'The task '.$id. ' does not exists!';
+        }
+
+        return $array;
+    }
+
+    public function updateTodo(Request $request, $id) {
+        $array = ['error' => ''];
+
+        $rules = [
+            'title' => 'min:3',
+            'done'  => 'boolean'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if($validator->fails()) {
+            $array['error'] = $validator->errors();
+            return $array;
+        }
+
+        $title = $request->input('title');
+        $done = $request->input('done');
+
+        $todo = Todo::find($id);
+        if($todo) {
+            if($title) {
+                $todo->title = $title;
+            }
+            if($done !== NULL) {
+                $todo->done = $done;
+            }
+
+            $todo->save();
+        } else {
+            $array['error'] = 'The task '.$id. ' does not exists!';
+        }
+
+
+        return $array;
 
     }
-    public function readTodo() {
+    public function deleteTodo($id) {
+        $array = ['error' => ''];
 
-    }
-    public function updateTodo() {
+        $array['taskDel'] = Todo::find($id)->delete();
 
-    }
-    public function deleteTodo() {
-
+        return $array;
     }
 }
