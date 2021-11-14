@@ -15,11 +15,11 @@ use App\Http\Controllers\ApiController;
 |
 */
 
-Route::get('/ping', function(){
-    return [
-        'pong' => true,
-    ];
-});
+// Route::get('/ping', function(){
+//     return [
+//         'pong' => true,
+//     ];
+// });
 
 Route::post('/todo', [ApiController::class, 'createTodo']);
 Route::get('/todos', [ApiController::class, 'readAllTodo']);
