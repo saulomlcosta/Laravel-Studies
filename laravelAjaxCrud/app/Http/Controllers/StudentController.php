@@ -13,6 +13,14 @@ class StudentController extends Controller
         return view('student.index');
     }
 
+    public function fetchStudent()
+    {
+        $students = Student::all();
+        return response()->json([
+            'students'=>$students,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
