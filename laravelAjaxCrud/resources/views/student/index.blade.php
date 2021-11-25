@@ -152,6 +152,25 @@
             });
         }
 
+        // $(document).on(click, '.delete_student', function (e) {
+        //     e.preventDefault();
+        //     var stud_id = $(this).val();
+
+        //     $.ajax({
+        //         type: "DELETE",
+        //         url: "/delete-student/"+stud_id,
+        //         success: function (response) {
+        //             if(response.status == 404) {
+        //                 $('#success_message').html("");
+        //                 $('#success_message').addClass('alert alert-danger')
+        //                 $('#success_message').text(response.message);
+        //             } else {
+        //                 $('#success_message').text(response.message);
+        //             }
+        //         }
+        //     });
+        // });
+
         $(document).on('click', '.edit_student', function(e) {
             e.preventDefault();
             var stud_id = $(this).val();
@@ -161,7 +180,6 @@
                 type: "GET",
                 url: "/edit-student/"+stud_id,
                 success: function (response) {
-                    console.log(response);
                     if(response.status == 404) {
                         $('#success_message').html("");
                         $('#success_message').addClass('alert alert-danger')
@@ -176,6 +194,62 @@
                 }
             });
 
+        });
+
+        $(document).on('click', '.update_student', function (e) {
+            e.preventDefault();
+
+            $(this).text("Updating");
+
+            var stud_id = $('#edit_stud_id').val();
+            var data = {
+                'name' : $('#edit_name').val(),
+                'email' : $('#edit_email').val(),
+                'phone' : $('#edit_phone').val(),
+                'course' : $('#edit_course').val(),
+            }
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: "PUT",
+                url: "/update-student/"+stud_id,
+                data: data,
+                dataType: "json",
+                success: function (response) {
+                    if(response.status == 400) {
+                        $('#updateForm_errList').html("");
+                        $('#updateForm_errList').addClass('alert alert-danger');
+                        $.each(response.errors, function (key, err_values) {
+                            $('#updateForm_errList').append('<li>'+err_values+'</li>');
+                        });
+                        $('.update_student').text("Update");
+
+                    }else if(response.status == 404) {
+                        $('#updateForm_errList').html("");
+                        $('#success_message').addClass('alert alert-danger')
+                        $('#success_message').text(response.message);
+                        $('.update_student').text("Update");
+
+
+                    }else {
+                        $('#updateForm_errList').html("");
+                        $('#success_message').html("");
+                        $('#success_message').addClass('alert alert-success')
+                        $('#success_message').text(response.message);
+
+                        $('#EditStudentModal').modal('hide');
+                        $('.update_student').text("Update");
+
+
+                        fetchStudent();
+                    }
+                }
+            });
         });
 
         $(document).on('click', '.add_student', function (e) {
