@@ -5,41 +5,84 @@
 {{-- AddStudentModal --}}
 <div class="modal fade" id="AddStudentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Student</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Student</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
 
-        <div class="modal-body">
+            <div class="modal-body">
 
-            <ul id="saveform_errList"></ul>
+                <ul id="saveform_errList"></ul>
 
-          <div class="form-group mb-3">
-              <label for="">Name</label>
-              <input type="text" class=" name form-control">
-          </div>
-          <div class="form-group mb-3">
-            <label for="">Email</label>
-            <input type="text" class=" email form-control">
+                <div class="form-group mb-3">
+                    <label for="">Name</label>
+                    <input type="text" class="name form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="">Email</label>
+                    <input type="text" class="email form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="">Phone</label>
+                    <input type="text" class="phone form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="">Course</label>
+                    <input type="text" class="course form-control">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary add_student">Save</button>
+            </div>
         </div>
-        <div class="form-group mb-3">
-            <label for="">Phone</label>
-            <input type="text" class=" phone form-control">
-        </div>
-        <div class="form-group mb-3">
-            <label for="">Course</label>
-            <input type="text" class=" course form-control">
-        </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary add_student">Save</button>
-        </div>
-      </div>
     </div>
-  </div>
-{{-- EndAddStudentModal --}}
+</div>
+{{-- End- AddStudentModal --}}
+
+{{-- EditStudentModal --}}
+<div class="modal fade" id="EditStudentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Student</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <ul id="updateForm_errList"></ul>
+
+                <input type="hidden" id="edit_stud_id">
+                <div class="form-group mb-3">
+                    <label for="">Name</label>
+                    <input type="text" id="edit_name" class="name form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="">Email</label>
+                    <input type="text" id="edit_email" class="email form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="">Phone</label>
+                    <input type="text" id="edit_phone" class="phone form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="">Course</label>
+                    <input type="text" id="edit_course" class="course form-control">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary update_student">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- End- EditStudentModal --}}
+
+
 
 
 <div class="container py-5">
@@ -99,14 +142,41 @@
                                 <td>'+item.id+'</td>\
                                 <td>'+item.name+'</td>\
                                 <td>'+item.email+'</td>\
+                                <td>'+item.phone+'</td>\
                                 <td>'+item.course+'</td>\
                                 <td><button type="button" value="'+item.id+'" class="edit_student btn btn-primary btn-sm">Edit</button></td>\
-                                <td><button type="button" value="'+item.id+'" class="delete_student btn btn-primary btn-sm">Delete</button></td>\
+                                <td><button type="button" value="'+item.id+'" class="delete_student btn btn-danger btn-sm">Delete</button></td>\
                             </tr>');
                     });
                 }
             });
         }
+
+        $(document).on('click', '.edit_student', function(e) {
+            e.preventDefault();
+            var stud_id = $(this).val();
+            $('#EditStudentModal').modal('show');
+
+            $.ajax({
+                type: "GET",
+                url: "/edit-student/"+stud_id,
+                success: function (response) {
+                    console.log(response);
+                    if(response.status == 404) {
+                        $('#success_message').html("");
+                        $('#success_message').addClass('alert alert-danger')
+                        $('#success_message').text(response.message);
+                    } else {
+                        $('#edit_name').val(response.student.name);
+                        $('#edit_email').val(response.student.email);
+                        $('#edit_phone').val(response.student.phone);
+                        $('#edit_course').val(response.student.course);
+                        $('#edit_stud_id').val(stud_id);
+                    }
+                }
+            });
+
+        });
 
         $(document).on('click', '.add_student', function (e) {
             e.preventDefault();
