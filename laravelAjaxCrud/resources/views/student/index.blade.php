@@ -82,6 +82,29 @@
 
 {{-- End- EditStudentModal --}}
 
+{{-- DeleteStudentModal --}}
+<div class="modal fade" id="DeleteStudentModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Student</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" id="delete_stud_id">
+                <h4>Are you sure about this?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary delete_student_btn">Yes, I'm sure!</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- End- DeleteStudentModal --}}
+
 
 
 
@@ -152,24 +175,37 @@
             });
         }
 
-        // $(document).on(click, '.delete_student', function (e) {
-        //     e.preventDefault();
-        //     var stud_id = $(this).val();
+        $(document).on('click', '.delete_student', function (e) {
+            e.preventDefault();
+            var stud_id = $(this).val();
+            $('#delete_stud_id').val(stud_id);
+            $('#DeleteStudentModal').modal('show');
+        });
 
-        //     $.ajax({
-        //         type: "DELETE",
-        //         url: "/delete-student/"+stud_id,
-        //         success: function (response) {
-        //             if(response.status == 404) {
-        //                 $('#success_message').html("");
-        //                 $('#success_message').addClass('alert alert-danger')
-        //                 $('#success_message').text(response.message);
-        //             } else {
-        //                 $('#success_message').text(response.message);
-        //             }
-        //         }
-        //     });
-        // });
+        $(document).on('click', '.delete_student_btn', function (e) {
+            e.preventDefault();
+
+            var stud_id = $('#delete_stud_id').val();
+
+            console.log('DELETE')
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                type: "DELETE",
+                url: "/delete-student/"+stud_id,
+                success: function (response) {
+                    $('#success_message').addClass('alert alert-success')
+                    $('#success_message').text(response.message);
+                    $('#DeleteStudentModal').modal('hide');
+                    fetchStudent();
+                }
+            });
+        });
 
         $(document).on('click', '.edit_student', function(e) {
             e.preventDefault();
