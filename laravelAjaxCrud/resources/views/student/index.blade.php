@@ -187,8 +187,6 @@
 
             var stud_id = $('#delete_stud_id').val();
 
-            console.log('DELETE')
-
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -199,7 +197,7 @@
                 type: "DELETE",
                 url: "/delete-student/"+stud_id,
                 success: function (response) {
-                    $('#success_message').addClass('alert alert-success')
+                    $('#success_message').addClass('alert alert-success');
                     $('#success_message').text(response.message);
                     $('#DeleteStudentModal').modal('hide');
                     fetchStudent();
