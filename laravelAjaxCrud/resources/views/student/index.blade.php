@@ -198,11 +198,13 @@
                 url: "/delete-student/"+stud_id,
                 success: function (response) {
                     $('#success_message').addClass('alert alert-success');
-                    $('#success_message').text(response.message);
+                    $('#success_message').text(response.message).fadeIn('slow');
                     $('#DeleteStudentModal').modal('hide');
+                    $('#success_message').text(response.message).delay(3000).fadeOut('slow')
                     fetchStudent();
                 }
             });
+
         });
 
         $(document).on('click', '.edit_student', function(e) {
@@ -273,10 +275,11 @@
                     }else {
                         $('#updateForm_errList').html("");
                         $('#success_message').html("");
-                        $('#success_message').addClass('alert alert-success')
-                        $('#success_message').text(response.message);
+                        $('#success_message').addClass('alert alert-success');
+                        $('#success_message').text(response.message).fadeIn('slow');
 
                         $('#EditStudentModal').modal('hide');
+                        $('#success_message').text(response.message).delay(3000).fadeOut('slow');
                         $('.update_student').text("Update");
 
 
@@ -323,8 +326,9 @@
                     {
                         $('#saveform_errList').html("");
                         $('#success_message').addClass('alert alert-success');
-                        $('#success_message').text(response.message);
+                        $('#success_message').text(response.message).fadeIn('slow');
                         $('#AddStudentModal').modal('hide');
+                        $('#success_message').text(response.message).delay(3000).fadeOut('slow')
                         $('#AddStudentModal').find('input').val("");
                         fetchStudent();
                     }
