@@ -155,7 +155,7 @@
         {
             $.ajax({
                 type: "GET",
-                url: "/fetch-students",
+                url: "/students/fetch-students",
                 dataType: "json",
                 success: function (response) {
                     // console.log(response.students);
@@ -195,7 +195,7 @@
 
             $.ajax({
                 type: "DELETE",
-                url: "/delete-student/"+stud_id,
+                url: "/students/delete-student/"+stud_id,
                 success: function (response) {
                     $('#success_message').addClass('alert alert-success');
                     $('#success_message').text(response.message).fadeIn('slow');
@@ -214,7 +214,7 @@
 
             $.ajax({
                 type: "GET",
-                url: "/edit-student/"+stud_id,
+                url: "/students/edit-student/"+stud_id,
                 success: function (response) {
                     if(response.status == 404) {
                         $('#success_message').html("");
@@ -253,7 +253,7 @@
 
             $.ajax({
                 type: "PUT",
-                url: "/update-student/"+stud_id,
+                url: "/students/update-student/"+stud_id,
                 data: data,
                 dataType: "json",
                 success: function (response) {
@@ -309,7 +309,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/students",
+                url: "/students/add",
                 data: data,
                 dataType: "json",
                 success: function (response) {
